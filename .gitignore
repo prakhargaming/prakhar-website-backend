@@ -2,3 +2,4 @@
 deploy/*.env
 server
 deploy/prakhar-backend.env
+docs/
