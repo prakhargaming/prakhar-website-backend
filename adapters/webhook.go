@@ -125,10 +125,10 @@ func sendWelcomeEmail(apiKey, to, firstName string) error {
   <title>Welcome Email</title>
 </head>
 <body style="margin:0;padding:0;font-family:Arial,sans-serif;background-color:#ffffff;color:#000000;">
-  <table role="presentation" style="width:100%;border-spacing:0;margin:0;padding:0;background-color:#ffffff;">
+  <table role="presentation" style="width:100%%;border-spacing:0;margin:0;padding:0;background-color:#ffffff;">
     <tr>
       <td align="center" style="padding:20px;">
-        <table role="presentation" style="max-width:600px;width:100%;border-spacing:0;text-align:left;background-color:#ffffff;border:1px solid #e0e0e0;">
+        <table role="presentation" style="max-width:600px;width:100%%;border-spacing:0;text-align:left;background-color:#ffffff;border:1px solid #e0e0e0;">
           <tr>
             <td style="padding:20px;font-size:16px;line-height:1.5;color:#000000;">
               <h1 style="font-size:24px;margin:0 0 20px;color:#000000;">Hi %s,</h1>
