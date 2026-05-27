@@ -11,7 +11,7 @@ import (
 	gemini "prakhar-website-backend/adapters/chat/gemini"
 	config "prakhar-website-backend/config"
 	database "prakhar-website-backend/database"
-	"prakhar-website-backend/middleware"
+	middleware "prakhar-website-backend/middleware"
 )
 
 func main() {
@@ -25,6 +25,11 @@ func main() {
 	geminiClient := gemini.NewClient(cfg.GeminiAPIKey)
 	rateLimiter := middleware.NewRateLimiter()
 
+	mux.HandleFunc("GET /health", http.HandlerFunc(
+		func(w http.ResponseWriter, r *http.Request) {
+			_, _ = w.Write([]byte("ok"))
+		},
+	))
 	mux.HandleFunc("GET /blogs", blogAdapter.GetBlogs(blogRepo))
 	mux.Handle("POST /send-message", middleware.OptionalClerkAuth(
 		rateLimiter.Middleware(
@@ -37,8 +42,8 @@ func main() {
 }
 
 var allowedOrigins = map[string]bool{
-	"https://prakhargaming.com": true,
-	"http://localhost:3000":     true,
+	"https://www.prakhargaming.com": true,
+	"http://localhost:3000":         true,
 }
 
 func withMiddleware(next http.Handler) http.Handler {
