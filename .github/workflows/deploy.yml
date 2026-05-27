@@ -1,0 +1,41 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Build
+        run: go build ./...
+
+      - name: Test
+        run: go test ./...
+
+      - name: Cross-compile for Linux
+        run: GOOS=linux GOARCH=amd64 go build -o server .
+
+      - name: Deploy to EC2
+        env:
+          SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+          HOST: ${{ secrets.EC2_HOST }}
+          USER: ${{ secrets.EC2_USER }}
+        run: |
+          echo "$SSH_KEY" > /tmp/deploy_key
+          chmod 600 /tmp/deploy_key
+          scp -i /tmp/deploy_key -o StrictHostKeyChecking=no server "$USER@$HOST:/tmp/server"
+          ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no "$USER@$HOST" \
+            "sudo mv /tmp/server /opt/prakhar-backend/server && \
+             sudo chown webapp:webapp /opt/prakhar-backend/server && \
+             sudo chmod 755 /opt/prakhar-backend/server && \
+             sudo systemctl restart prakhar-backend"
+          rm -f /tmp/deploy_key
