@@ -15,6 +15,7 @@ type Config struct {
 	MongoVectorDatabase   string
 	MongoVectorCollection string
 	ClerkWebhookSecret    string
+	ClerkSecretKey        string
 	SendgridAPIKey        string
 }
 
@@ -34,8 +35,9 @@ func LoadConfig() *Config {
 		Port:                  getEnv("PORT", "8080"),
 		MongoVectorDatabase:   mustGetEnv("MONGODB_VECTOR_DATABASE"),
 		MongoVectorCollection: mustGetEnv("MONGODB_VECTOR_COLLECTION"),
-		ClerkWebhookSecret:    mustGetEnv("CLERK_WEBHOOK_SECRET_PROD"),
-		SendgridAPIKey:        mustGetEnv("SENDGRID_API_KEY"),
+		ClerkWebhookSecret:    getEnv("CLERK_WEBHOOK_SECRET_PROD", ""),
+		ClerkSecretKey:        mustGetEnv("CLERK_SECRET_KEY"),
+		SendgridAPIKey:        getEnv("SENDGRID_API_KEY", ""),
 	}
 }
 

@@ -1,0 +1,15 @@
+{
+	email prakhar530@gmail.com
+}
+
+api.prakhargaming.com {
+	reverse_proxy localhost:8080
+
+	encode gzip
+
+	log {
+		output stdout
+		format console
+	}
+}
+sudo useradd --system --no-create-home --shell /usr/sbin/nologin webapp

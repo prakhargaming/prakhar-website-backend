@@ -1,0 +1,32 @@
+[Unit]
+Description=Prakhar Website Backend
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=webapp
+Group=webapp
+WorkingDirectory=/opt/prakhar-backend
+ExecStart=/opt/prakhar-backend/server
+EnvironmentFile=/etc/prakhar-backend.env
+Restart=on-failure
+RestartSec=5s
+StandardOutput=journal
+StandardError=journal
+
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+RestrictNamespaces=true
+LockPersonality=true
+ReadOnlyPaths=/opt/prakhar-backend
+
+[Install]
+WantedBy=multi-user.target
